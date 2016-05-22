@@ -1,0 +1,29 @@
+Package: TenK
+Type: Package
+Title: Retrieve full text reports or business descriptions from SEC 10-K reports
+Version: 0.1
+Date: 2016-05-23
+Author: Jasper Ginn
+Maintainer: Jasper Ginn <jasperginn@gmail.com>
+Description:
+    This package contains tools to scrape SEC 10-K annual reports.
+Imports:
+    dplyr,
+    stringr,
+    rvest
+URL:
+    http://www.jasperginn.nl/TenK/
+    https://github.com/JasperHG90/TenK
+    https://github.com/JasperHG90/TenK/wiki
+BugReports: https://github.com/JasperHG90/TenK/issues
+License: GPL3
+LazyData: TRUE
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat,
+    RPostgreSQL,
+    rmongodb,
+    rjson
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
