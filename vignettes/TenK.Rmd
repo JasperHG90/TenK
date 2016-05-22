@@ -36,6 +36,18 @@ A copy of [this documentation](https://github.com/JasperHG90/TenK/wiki) is avail
 3. The report uses unconventional paragraph styles (this will result in the program being unable to find the description and returning "NA").
 4. When the text was extracted from the HTML document, certain paragraphs got "squished" together, which throws off the program. (e.g. "part 1 item 1" becomes "part1item1.".)
 
+You may observe that words appear to be "squished" together, like so:
+
+```
+...holder(s).employeesas of december 28, 2014, we had 8,696 full-time employees, including 3,014 employees in
+research and development, 1,023 employees in sales and marketing, 639 employees in general and administrative,
+and 4,020 employees in operations. none of our employees is represented by a collective bargaining agreement 
+and we have never experienced any employee work stoppage. we believe that our employee relations are
+good.10table of contentsexecutive officersour executive officers,..
+```
+
+This is due to the way `rvest` extracts text from the page and mainly affects paragraph headers. I am looking for a way to fix this.
+
 ## 1.2 How does TenK work?
 
 The main function in this package, `TenK_process`, takes as its input a URL belonging to a 10-K report. The URL can point either to the FTP or the HTML version of the report. If the user passes an FTP url, then `TenK_process` automatically determines the HTML version and collects useful metadata. If the user passes an HTML url, `TenK_process` also collects metadata and returns the scraped text. Currently, `TenK_process` either returns the full 10-K report, or the business description section.
