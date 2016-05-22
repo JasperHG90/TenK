@@ -28,7 +28,8 @@
 #'   case, it will only return the url to the HTML 10-K report and the 10-K
 #'   document or business description.
 #' @param meta_list Choose which fields you want to return. Defaults to "ALL".
-#'   For an overview of the variables that you can select, please see <URL>.
+#'   For an overview of the variables that you can select, please see
+#'   \url{https://goo.gl/AJFUul}.
 #' @return Depending on the 'return_meta' parameter and 'meta_list' parameter,
 #'   the function returns a list with useful information. Please refer to the
 #'   documentation for additional information.
