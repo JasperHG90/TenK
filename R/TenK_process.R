@@ -21,15 +21,14 @@
 #'   documentation (execute 'vignette("TenK")' or visit \url{https://goo.gl/pNMMcK})
 #'
 #' @param URL url belonging to the 10-k annual report
-#' @param return_meta If FALSE, then function only returns the report. If TRUE,
-#'   function returns a list with additional meta information (See overview of
-#'   variables here: \url{https://goo.gl/AJFUul}). Defaults to FALSE
 #' @param metadata If FALSE, the function does not return any metadata. In this
 #'   case, it will only return the url to the HTML 10-K report and the 10-K
 #'   document or business description.
 #' @param meta_list Choose which fields you want to return. Defaults to "ALL".
 #'   For an overview of the variables that you can select, please see
 #'   \url{https://goo.gl/AJFUul}.
+#' @param return Return either full report ("ALL") or business description ("BD"). 
+#'   Defaults to "ALL"
 #' @return Depending on the 'return_meta' parameter and 'meta_list' parameter,
 #'   the function returns a list with useful information. Please refer to the
 #'   documentation for additional information.

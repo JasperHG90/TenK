@@ -25,6 +25,7 @@
 #' @param meta_list Function returns a list with additional meta information
 #'   (See overview of variables here: \url{https://goo.gl/AJFUul}). Choose which
 #'   fields you want to return. Defaults to "ALL".
+#' @param type Is the url an FTP or an HTML url?
 #' @return Depending on the 'meta_list' parameter, the function returns a list
 #'   with useful information. Please refer to the documentation for additional
 #'   information. To view the documentation, execute 'vignette("TenK")'

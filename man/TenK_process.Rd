@@ -15,11 +15,11 @@ case, it will only return the url to the HTML 10-K report and the 10-K
 document or business description.}
 
 \item{meta_list}{Choose which fields you want to return. Defaults to "ALL".
-For an overview of the variables that you can select, please see <URL>.}
+For an overview of the variables that you can select, please see
+\url{https://goo.gl/AJFUul}.}
 
-\item{return_meta}{If FALSE, then function only returns the report. If TRUE,
-function returns a list with additional meta information (See overview of
-variables here: \url{https://goo.gl/AJFUul}). Defaults to FALSE}
+\item{return}{Return either full report ("ALL") or business description ("BD"). 
+Defaults to "ALL"}
 }
 \value{
 Depending on the 'return_meta' parameter and 'meta_list' parameter,

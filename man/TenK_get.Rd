@@ -13,6 +13,8 @@ TenK_get(URL, meta_list, type = c("ftp", "html"))
 \item{meta_list}{Function returns a list with additional meta information
 (See overview of variables here: \url{https://goo.gl/AJFUul}). Choose which
 fields you want to return. Defaults to "ALL".}
+
+\item{type}{Is the url an FTP or an HTML url?}
 }
 \value{
 Depending on the 'meta_list' parameter, the function returns a list
