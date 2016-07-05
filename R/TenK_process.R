@@ -132,17 +132,14 @@ TenK_process <- function( URL,
         return(res)
       }
     }
-
-    # Get text
-    p <- read_html(report_url)
     # Navigation
-    pp <- p %>% xml_find_first("/html/body/document/type/sequence/filename/description/text")
+    p <- html %>% xml_find_first("/html/body/document/type/sequence/filename/description/text")
     # If 0
     if(length(p) == 0) {
-      pp <- p %>% xml_find_first("/html/body/document/type/sequence/filename/text")
+      p <- html %>% xml_find_first("/html/body/document/type/sequence/filename/text")
     }
     # Get children
-    p <- pp %>% xml_children()
+    p <- p %>% xml_children()
     # For each, extract text
     res <- sapply(p, text.recursion)
     # Filter NULLS
@@ -251,7 +248,7 @@ TenK_process <- function( URL,
       text <- str_sub(text, (item1$end[2] + 1), char)
     } else {
       h <- str_sub(h, (item1$end[1] + 1), char)
-      text <- str_sub(text, (item1$end[2] + 1), char)
+      text <- str_sub(text, (item1$end[1] + 1), char)
     }
 
     # Locate "item 1a."
@@ -265,7 +262,7 @@ TenK_process <- function( URL,
         subst <- str_sub(h, (sub$start - 100), sub$end)
         # Check for "see" and 'refer to'
         check <- ifelse(grepl("see", subst) |
-                          grepl("refer\\s?you? to", subst) |
+                          grepl("refer to", subst) |
                           grepl("described(\\s)?(below)? (in|under)", subst) |
                           grepl("contained(\\s)?(below)? (in|under)", subst) |
                           grepl("discussed(\\s)?(below)? (in|under)", subst) |
