@@ -329,14 +329,14 @@ TenK_process <- function( URL,
   # If entire report
   if( retrieve == "ALL" ) {
     # Retrieve text
-    rep <- rep %>% html_text() %>%
+    rep <- rep %>% get.text %>%
       preProcess()
     # Add to list and return
     res$report <- rep
     # Return
     return(res)
   } else { # Else business description
-    BD <- extractBD(rep %>% html_text())
+    BD <- extractBD(rep %>% get.text())
     # If FTP, then res exists --> append
     res$busdescription <- BD
     # Return
