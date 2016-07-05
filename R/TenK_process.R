@@ -27,7 +27,7 @@
 #' @param meta_list Choose which fields you want to return. Defaults to "ALL".
 #'   For an overview of the variables that you can select, please see
 #'   \url{https://goo.gl/AJFUul}.
-#' @param return Return either full report ("ALL") or business description ("BD"). 
+#' @param return Return either full report ("ALL") or business description ("BD").
 #'   Defaults to "ALL"
 #' @return Depending on the 'return_meta' parameter and 'meta_list' parameter,
 #'   the function returns a list with useful information. Please refer to the
@@ -62,10 +62,10 @@ TenK_process <- function( URL,
   # Check URL (FTP / HTML)
   if(! grepl("ftp.sec.gov", URL) ) {
     # Marker
-    FTP <- F
+    FTP <- FALSE
     type <- "html"
   } else {
-    FTP <- T
+    FTP <- TRUE
     type <- "ftp"
   }
 
@@ -116,7 +116,7 @@ TenK_process <- function( URL,
       # SPlit
       text_split <- str_split(text, "\\s")
       # Remove whitespaces
-      WS <- sapply(text_split, function(x) ifelse(x == " " | x == "", F, T))
+      WS <- sapply(text_split, function(x) ifelse(x == " " | x == "", FALSE, TRUE))
       # Subset
       text_split <- text_split[[1]][WS]
       # Rejoin and return
