@@ -38,9 +38,9 @@
 #' @seealso See \url{https://goo.gl/pNMMcK} for documentation on this package. You can
 #'   also execute 'vignette("TenK")'.
 #' @author Jasper Ginn
-#' @importFrom xml2 read_html
+#' @importFrom xml2 read_html xml_find_first xml_length xml_text xml_children
 #' @importFrom rvest html_node html_table html_text
-#' @importFrom stringr str_extract_all str_locate_all str_sub str_count
+#' @importFrom stringr str_extract_all str_locate_all str_sub str_count str_trim
 #' @import dplyr
 #' @export
 

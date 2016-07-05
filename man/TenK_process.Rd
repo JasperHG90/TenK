@@ -18,7 +18,7 @@ document or business description.}
 For an overview of the variables that you can select, please see
 \url{https://goo.gl/AJFUul}.}
 
-\item{return}{Return either full report ("ALL") or business description ("BD"). 
+\item{return}{Return either full report ("ALL") or business description ("BD").
 Defaults to "ALL"}
 }
 \value{
