@@ -100,6 +100,54 @@ TenK_process <- function( URL,
     })
   } #'End of function get'
 
+  # Function 'get.text'. Takes html as input and recursively extracts text from elements. Essentially does the same thing
+  # As rvest's 'read_html'. However, I've had some issues with the rvest function in that it squeezes sentences together
+  # (see documentation). This is the first version of the 'get.text' function. It is slower than rvest's 'read_html' but
+  # does a better job at extracting text.
+    # Param: raw html extracted by get function (see line 94)
+    # Returns: returns concatenated text of report.
+
+  get.text <- function(html) {
+
+    #########################################
+    # Recursively extract text from reports #
+    #########################################
+
+    text.recursion <- function(node) {
+      if( xml_length(node) == 0 ) {
+        # Extract text
+        node.string <- xml_text(node)
+        # Check for characters where number of characters <= 1
+        if( nchar(node.string) <= 1 ) {
+          return(NULL)
+        }
+        # Trim whitespace
+        node.string <- str_trim(node.string)
+        # Return
+        return(node.string)
+      } else {
+        res <- unlist(sapply(xml_children(node), text.recursion))
+        # Collapse
+        res <- paste0(res, collapse = " ")
+        return(res)
+      }
+    }
+
+    # Get text
+    p <- html %>%
+      xml_find_first("/html/body/document/type/sequence/filename/description/text") %>%
+      # Get children
+      xml_children()
+    # For each, extract text
+    res <- sapply(p, text.recursion)
+    # Filter NULLS
+    res <- res[sapply(res, is.null) == FALSE]
+    # Collapse
+    res <- paste0(res, collapse = " ")
+    # Return
+    return(res)
+  }
+
   # Function 'preprocess'. Preprocesses a piece of text by stripping out additional spaces etc..
     # param: text - raw text extracted from 10-K report
     # Returns: pre-processed text.
