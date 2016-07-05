@@ -177,9 +177,6 @@ TenK_process <- function( URL,
     # Strip whitespace
     text <- stripspace(text)
 
-    # To lowercase letters
-    text <- tolower(text)
-
     # Return
     return(text)
 
@@ -192,8 +189,10 @@ TenK_process <- function( URL,
   extractBD <- function(text) {
 
     # Pre-process data
-    h <- preProcess(text)
+    text <- preProcess(text)
 
+    # To lowercase letters
+    h <- tolower(text)
     #h <- stringi::stri_trans_general(h, "latin-ascii")
 
     # Number of characters in report
@@ -244,8 +243,10 @@ TenK_process <- function( URL,
     if( nrow(item1) > 1 ) {
       # Subset
       h <- str_sub(h, (item1$end[2] + 1), char)
+      text <- str_sub(text, (item1$end[2] + 1), char)
     } else {
       h <- str_sub(h, (item1$end[1] + 1), char)
+      text <- str_sub(text, (item1$end[2] + 1), char)
     }
 
     # Locate "item 1a."
@@ -292,7 +293,7 @@ TenK_process <- function( URL,
       stop_condition <- tbl_df(as.data.frame(str_locate_all(h, "item 2.\\s?(description of\\s)?propert")[[1]]))
     }
     # Extract
-    BD <- str_sub(h, 1, (stop_condition$start[1] - 1))
+    BD <- str_sub(text, 1, (stop_condition$start[1] - 1))
 
     # Return
     return(BD)
