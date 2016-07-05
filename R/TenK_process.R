@@ -260,7 +260,7 @@ TenK_process <- function( URL,
         subst <- str_sub(h, (sub$start - 100), sub$end)
         # Check for "see" and 'refer to'
         check <- ifelse(grepl("see", subst) |
-                          grepl("refer to", subst) |
+                          grepl("refer\\s?you? to", subst) |
                           grepl("described(\\s)?(below)? (in|under)", subst) |
                           grepl("contained(\\s)?(below)? (in|under)", subst) |
                           grepl("discussed(\\s)?(below)? (in|under)", subst) |
