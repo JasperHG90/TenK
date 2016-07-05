@@ -38,7 +38,7 @@
 #' @seealso See \url{https://goo.gl/pNMMcK} for documentation on this package. You can
 #'   also execute 'vignette("TenK")'.
 #' @author Jasper Ginn
-#' @importFrom xml2 read_html xml_find_first xml_length xml_text xml_children
+#' @importFrom xml2 read_html xml_find_first xml_length xml_text xml_children xml_name
 #' @importFrom rvest html_node html_table html_text
 #' @importFrom stringr str_extract_all str_locate_all str_sub str_count str_trim
 #' @import dplyr
@@ -114,7 +114,7 @@ TenK_process <- function( URL,
     #########################################
 
     text.recursion <- function(node) {
-      if( xml_length(node) <= 1 ) {
+      if( xml_length(node) <= 1 | xml_name(node) == "p" | xml_name(node) == "font" ) {
         # Extract text
         node.string <- xml_text(node)
         # Check for characters where number of characters <= 1
