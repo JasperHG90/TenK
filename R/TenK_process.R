@@ -114,7 +114,7 @@ TenK_process <- function( URL,
     #########################################
 
     text.recursion <- function(node) {
-      if( xml_length(node) == 0 ) {
+      if( xml_length(node) <= 1 ) {
         # Extract text
         node.string <- xml_text(node)
         # Check for characters where number of characters <= 1
