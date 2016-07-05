@@ -134,10 +134,15 @@ TenK_process <- function( URL,
     }
 
     # Get text
-    p <- html %>%
-      xml_find_first("/html/body/document/type/sequence/filename/description/text") %>%
-      # Get children
-      xml_children()
+    p <- read_html(report_url)
+    # Navigation
+    pp <- p %>% xml_find_first("/html/body/document/type/sequence/filename/description/text")
+    # If 0
+    if(length(p) == 0) {
+      pp <- p %>% xml_find_first("/html/body/document/type/sequence/filename/text")
+    }
+    # Get children
+    p <- pp %>% xml_children()
     # For each, extract text
     res <- sapply(p, text.recursion)
     # Filter NULLS
