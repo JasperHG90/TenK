@@ -110,18 +110,20 @@ TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
         ftp.url.split <- unlist(str_split(ftp.url,
                                "\\/"))
         # Reform
+        '
         ftp.url.split[2] <- paste0(str_sub(ftp.url.split[2], 1, 10),
                                    "-",
                                    str_sub(ftp.url.split[2], 11, 12),
                                    "-",
                                    str_sub(ftp.url.split[2], 13, 19))
+        '
 
 	    }
 
 	    # Elements for new url
 	    EL <- list(base = "https://www.sec.gov/Archives/edgar/data/")
 	    EL$CIK = ftp.url.split[1]
-	    EL$ARC = str_replace_all(ftp.url.split[2], "-", "")
+	    EL$ARC = str_replace_all(ftp.url.split[2], "\\-", "")
 	    EL$IND = paste0(ftp.url.split[2], "-index.htm")
 
 	    # Add HTM to index
@@ -155,10 +157,17 @@ TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
 	        html_table() %>%
 	        filter(., Type == "10-K")
 	    }, error = function(e) {
-	      index %>%
-	        html_node(xpath = "//*[@id='formDiv']/div[3]/table") %>%
-	        html_table() %>%
-	        filter(., Type == "10-K")
+	      tryCatch({
+	        index %>%
+	          html_node(xpath = "//*[@id='formDiv']/div[3]/table") %>%
+	          html_table() %>%
+	          filter(., Type == "10-K")
+	      }, error = function(e) {
+	        index %>%
+	          html_node(xpath = "//*[@id='formDiv']/div/table") %>%
+	          html_table() %>%
+	          filter(., Type == "10-K")
+	      })
 	    })
 	    # If nrow == 0, return NULL
 	    if(nrow(t) == 0) {
