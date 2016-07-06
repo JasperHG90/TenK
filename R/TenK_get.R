@@ -259,8 +259,6 @@ TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
 	  ROL <- get10khtm(ROL, meta_fields)
 	  # Add ftp url if type is ftp
 	  if (type == "ftp") ROL$FTPurl <- ftp.url
-	  # Add class
-	  class(ROL) <- "TenK"
 	  # Return
 	  return(ROL)
 
