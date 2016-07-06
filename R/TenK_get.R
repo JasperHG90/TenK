@@ -170,6 +170,10 @@ TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
 	          filter(., Type == "10-K")
 	      })
 	    })
+	    # If more than 1 observation, then filter for .htm extension
+	    if( nrow(t) > 1 ) {
+	      t <- t[endsWith(t$Document, ".htm"),]
+	    }
 	    # If nrow == 0, return NULL
 	    if(nrow(t) == 0) {
 	      stop(paste0("Cannot extract 10-K information from index page ", index))
