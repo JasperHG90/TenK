@@ -109,14 +109,15 @@ TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
         # Split
         ftp.url.split <- unlist(str_split(ftp.url,
                                "\\/"))
+        # Replace all dashes
+        ftp.url.split[2] <- str_replace_all(ftp.url.split[2], "\\-", "")
         # Reform
-        '
         ftp.url.split[2] <- paste0(str_sub(ftp.url.split[2], 1, 10),
                                    "-",
                                    str_sub(ftp.url.split[2], 11, 12),
                                    "-",
                                    str_sub(ftp.url.split[2], 13, 19))
-        '
+
 
 	    }
 
