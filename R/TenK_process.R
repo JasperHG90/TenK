@@ -132,12 +132,14 @@ TenK_process <- function( URL,
         return(res)
       }
     }
-
-    # Get text
-    p <- html %>%
-      xml_find_first("/html/body/document/type/sequence/filename/description/text") %>%
-      # Get children
-      xml_children()
+    # Navigation
+    p <- html %>% xml_find_first("/html/body/document/type/sequence/filename/description/text")
+    # If 0
+    if(length(p) == 0) {
+      p <- html %>% xml_find_first("/html/body/document/type/sequence/filename/text")
+    }
+    # Get children
+    p <- p %>% xml_children()
     # For each, extract text
     res <- sapply(p, text.recursion)
     # Filter NULLS
@@ -246,7 +248,7 @@ TenK_process <- function( URL,
       text <- str_sub(text, (item1$end[2] + 1), char)
     } else {
       h <- str_sub(h, (item1$end[1] + 1), char)
-      text <- str_sub(text, (item1$end[2] + 1), char)
+      text <- str_sub(text, (item1$end[1] + 1), char)
     }
 
     # Locate "item 1a."
