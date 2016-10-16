@@ -2,6 +2,8 @@
 
 `TenK` is an R package aimed at simplifying the collection of SEC 10-K annual reports. Please refer to [the documentation](https://github.com/JasperHG90/TenK/wiki) for additional information.
 
+You can find a demo showcasing the package on: [http://www.analyticsandpeppers.eu/TenK/](http://www.analyticsandpeppers.eu/TenK/).
+
 # Package information
 
 - Package name: TenK
