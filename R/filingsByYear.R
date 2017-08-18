@@ -24,13 +24,25 @@
 #'   See also \code{\link{TenK_process}}.
 #' @author Jasper Ginn
 #' @importFrom utils txtProgressBar setTxtProgressBar download.file
+#' @export
 
 filingsByYear <- function(year) {
   # Helper function to read IDX files
   read.idx <- function(destfile) {
     io <- readLines(destfile)[-1:-12]
     lines <- lapply(io, function(x) {
-      m <- strsplit(x, "\\|")[[1]]
+      m <- tryCatch(
+        strsplit(x, "\\|")[[1]]
+      , error = function(e) {
+        list(
+          "ERROR",
+          "ERROR",
+          "ERROR"
+        )
+      })
+      if(length(m) < 3) {
+        return(NULL)
+      }
       if(m[3] != "10-K") {
         return(NULL)
       } else {
