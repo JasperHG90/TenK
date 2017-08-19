@@ -35,10 +35,11 @@
 #' @author Jasper Ginn
 #' @importFrom xml2 read_html
 #' @importFrom rvest html_node html_table html_text
-#' @importFrom stringr str_replace str_split str_replace_all str_sub
+#' @importFrom stringr str_replace str_split str_replace_all str_sub str_detect
+#' @importFrom purrr map
 #' @import dplyr
 
-TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
+TenK_get <- function( URL, type = c("ftp", "html"), meta_list ) {
 
   # Match arg
   type <- match.arg(type)
@@ -51,7 +52,8 @@ TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
                      "htm10kinfo",
                      "filing_date",
                      "date_accepted",
-                     "period_report")
+                     "period_report",
+                     "filer_info")
   }
 
 	###############################
@@ -230,6 +232,55 @@ TenK_get <- function( URL, meta_list, type = c("ftp", "html") ) {
 	      # Add
 	      info.list$period_report <- PR
 	    }
+	    # Grab filer information
+	    if ("filer_info" %in% meta_fields) {
+	      # Filer data
+	      filer <- index %>% html_node("div#filerDiv")
+	      # Mailing addresses (business and other)
+	      mail <- filer %>% html_nodes("div.mailer") %>% html_text()
+	      # Split mailing addresses
+	      mail_address <- map(mail, function(x) {
+	        one <- lapply(str_split(x, "\n")[[1]], function(x) {
+	          sub_one <- trimws(x)
+	          if(sub_one == "") {
+	            return(NULL)
+	          } else {
+	            return(sub_one)
+	          }
+	        })
+	        # Remove NULL
+	        one <- one[!sapply(one, function(x) is.null(x))]
+	        # Return
+	        return(one)
+	      })
+	      # Add to data
+	      info.list$filer_info$mailing_address <- mail_address
+	      # Get identity info
+	      identity <- filer %>% html_nodes("p.identInfo") %>% html_text()
+	      # Split at |
+	      identity_split <- str_split(identity, "\\|")[[1]]
+	      # Clean
+	      identity_clean <- map(identity_split, function(x) {
+	        sub_x <- trimws(x)
+	        # Clean specific
+	        if(str_detect(tolower(sub_x), "state of incorp") | str_detect(tolower(sub_x), "fiscal year end")) {
+	          sub_x <- str_replace(sub_x, "Type: 10-K", "")
+	        }
+          if(str_detect(tolower(sub_x), "film no")) {
+            sub_x <- str_replace(sub_x, "Assistant Director [0-9]*", "")
+            sub_x <- str_split(sub_x, "SIC: ")[[1]]
+            if(length(sub_x) > 1) {
+              sub_x[2] <- paste0("SIC: ", sub_x[2])
+            }
+          }
+	        sub_x
+	      })
+	      # Unlist
+	      identity_clean <- unlist(identity_clean, recursive = FALSE)
+	      # Append to info
+	      info.list$filer_info$filer <- identity_clean
+	    }
+
 	    # Append info & Return list
 	    info.list$htm10kurl <- paste0(info.list$base,
 	                                  info.list$CIK,
