@@ -338,11 +338,13 @@ TenK_process <- function( URL,
     res$report <- rep
     # Return
     return(res)
-  } else { # Else business description
+  } else if(retrieve == "BD") { # Else business description
     BD <- extractBD(rep %>% get.text())
     # If FTP, then res exists --> append
     res$busdescription <- BD
     # Return
+    return(res)
+  } else { # Else NONE
     return(res)
   }
 }
