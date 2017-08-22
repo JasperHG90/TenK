@@ -24,6 +24,7 @@
 #'   See also \code{\link{TenK_process}}.
 #' @author Jasper Ginn
 #' @importFrom utils txtProgressBar setTxtProgressBar download.file
+#' @import rvest
 #' @export
 
 filingsByYear <- function(year) {
@@ -58,12 +59,23 @@ filingsByYear <- function(year) {
     names(df) <- header
     return(df)
   }
+  current.year <- as.numeric(strsplit(as.character(Sys.Date()), "-")[[1]][1])
   # Check if year in range
-  if(year < 1993 | year > as.numeric(strsplit(as.character(Sys.Date()), "-")[[1]][1]) -1) {
-    stop("'year' parameter can't be less than 1993 or higher than last year.")
+  if(year < 1993 | year > current.year) {
+    stop(paste0("'year' parameter can't be less than 1993 or higher than ", as.character(current.year), "."))
+  }
+  # If year is current year, check how many quarters are available
+  if(year == current.year) {
+    t <- read_html(paste0("https://www.sec.gov/Archives/edgar/full-index/", year, "/")) %>%
+      html_node("div#main-content") %>%
+      html_node("table") %>%
+      html_table()
+    quarters <- paste0("QTR", 1:nrow(t))
+  } else {
+    quarters <- paste0("QTR", 1:4)
   }
   # This is the url with past data
-  bUrl <- sapply(paste0("QTR", 1:4), function(x) {
+  bUrl <- sapply(quarters, function(x) {
     paste0("https://www.sec.gov/Archives/edgar/full-index/", year, "/", x, "/master.idx")
   })
   # Download each of the files
