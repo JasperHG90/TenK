@@ -27,7 +27,7 @@
 #' @param meta_list Choose which fields you want to return. Defaults to "ALL".
 #'   For an overview of the variables that you can select, please see
 #'   \url{https://goo.gl/AJFUul}.
-#' @param return Return either full report ("ALL") or business description ("BD").
+#' @param return Return full report ("ALL"), business description ("BD") or only metadata ("NONE").
 #'   Defaults to "ALL"
 #' @return Depending on the 'return_meta' parameter and 'meta_list' parameter,
 #'   the function returns a list with useful information. Please refer to the
@@ -47,7 +47,7 @@
 TenK_process <- function( URL,
                           metadata = TRUE,
                           meta_list = list(),
-                          retrieve = c("ALL", "BD")) {
+                          retrieve = c("ALL", "BD", "NONE")) {
 
   # Match
   retrieve <- match.arg(retrieve)
@@ -73,7 +73,7 @@ TenK_process <- function( URL,
   if( length(meta_list) > 0 ) {
     if(!all(names(meta_list) %in% c("CIK", "ARC", "index.url", "filing_date",
                                 "company_name", "period_report",
-                                "date_accepted", "htm10kurl", "htm10kinfo"))) {
+                                "date_accepted", "htm10kurl", "htm10kinfo", "filer_info"))) {
       stop("Invalid fields passed to 'meta_list' argument. Please check your syntax.")
     }
   }

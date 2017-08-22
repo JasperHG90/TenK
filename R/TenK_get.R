@@ -34,7 +34,7 @@
 #'   See also \code{\link{TenK_process}}.
 #' @author Jasper Ginn
 #' @importFrom xml2 read_html
-#' @importFrom rvest html_node html_table html_text
+#' @importFrom rvest html_node html_table html_text html_nodes
 #' @importFrom stringr str_replace str_split str_replace_all str_sub str_detect
 #' @importFrom purrr map
 #' @import dplyr
@@ -280,7 +280,6 @@ TenK_get <- function( URL, type = c("ftp", "html"), meta_list ) {
 	      # Append to info
 	      info.list$filer_info$filer <- identity_clean
 	    }
-
 	    # Append info & Return list
 	    info.list$htm10kurl <- paste0(info.list$base,
 	                                  info.list$CIK,

@@ -5,16 +5,16 @@
 \title{Converts an FTP url from an SEC 10-K report to a URL pointing towards the
 HTML version of that report.}
 \usage{
-TenK_get(URL, meta_list, type = c("ftp", "html"))
+TenK_get(URL, type = c("ftp", "html"), meta_list)
 }
 \arguments{
 \item{URL}{url belonging to the 10-k annual report}
 
+\item{type}{Is the url an FTP or an HTML url?}
+
 \item{meta_list}{Function returns a list with additional meta information
 (See overview of variables here: \url{https://goo.gl/AJFUul}). Choose which
 fields you want to return. Defaults to "ALL".}
-
-\item{type}{Is the url an FTP or an HTML url?}
 }
 \value{
 Depending on the 'meta_list' parameter, the function returns a list
@@ -27,11 +27,10 @@ towards the HTML version of that report. The function will also collect and
 return metadata if desired by the user. This function should not be called
 directly; it is called from \code{TenK_process}.
 }
-\author{
-Jasper Ginn
-}
 \seealso{
 See \url{https://goo.gl/pNMMcK} for documentation on this package.
   See also \code{\link{TenK_process}}.
 }
-
+\author{
+Jasper Ginn
+}

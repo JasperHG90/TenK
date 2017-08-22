@@ -22,4 +22,3 @@ filings10K2014
 A dataset containing FTP links to all filed 10-K reports in 2014.
 }
 \keyword{datasets}
-

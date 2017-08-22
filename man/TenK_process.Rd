@@ -36,11 +36,10 @@ Depending on the 'return_meta' parameter and 'meta_list' parameter,
 res <- TenK_process("ftp://ftp.sec.gov/edgar/data/34782/0000034782-16-000102.txt")
 
 }
-\author{
-Jasper Ginn
-}
 \seealso{
 See \url{https://goo.gl/pNMMcK} for documentation on this package. You can
   also execute 'vignette("TenK")'.
 }
-
+\author{
+Jasper Ginn
+}
