@@ -3,6 +3,7 @@
 export(TenK_process)
 export(filingsByYear)
 import(dplyr)
+import(rvest)
 importFrom(purrr,map)
 importFrom(rvest,html_node)
 importFrom(rvest,html_nodes)
