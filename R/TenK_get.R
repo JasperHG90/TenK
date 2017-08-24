@@ -263,7 +263,7 @@ TenK_get <- function( URL, type = c("ftp", "html"), meta_list ) {
 	      identity_clean <- map(identity_split, function(x) {
 	        sub_x <- trimws(x)
 	        # Clean specific
-	        if(str_detect(tolower(sub_x), "state of incorp") | str_detect(tolower(sub_x), "fiscal year end")) {
+	        if(str_detect(tolower(sub_x), "state of incorp") | str_detect(tolower(sub_x), "fiscal year end") | str_detect(tolower(sub_x),"irs no")) {
 	          sub_x <- str_replace(sub_x, "Type: 10-K", "")
 	        }
           if(str_detect(tolower(sub_x), "film no")) {
