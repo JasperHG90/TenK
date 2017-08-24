@@ -5,7 +5,7 @@
 \title{Scrape an entire 10-K report or the business description section/}
 \usage{
 TenK_process(URL, metadata = TRUE, meta_list = list(), retrieve = c("ALL",
-  "BD"))
+  "BD", "NONE"))
 }
 \arguments{
 \item{URL}{url belonging to the 10-k annual report}
@@ -18,7 +18,7 @@ document or business description.}
 For an overview of the variables that you can select, please see
 \url{https://goo.gl/AJFUul}.}
 
-\item{return}{Return either full report ("ALL") or business description ("BD").
+\item{return}{Return full report ("ALL"), business description ("BD") or only metadata ("NONE").
 Defaults to "ALL"}
 }
 \value{
