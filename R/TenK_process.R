@@ -41,6 +41,7 @@
 #' @importFrom xml2 read_html xml_find_first xml_length xml_text xml_children xml_name
 #' @importFrom rvest html_node html_table html_text
 #' @importFrom stringr str_extract_all str_locate_all str_sub str_count str_trim
+#' @importFrom uuid UUIDgenerate
 #' @import dplyr
 #' @export
 
@@ -326,6 +327,14 @@ TenK_process <- function( URL,
     }
   }
 
+  # Add UUID
+  res$uuid <- uuid::UUIDgenerate(TRUE) # TRUE: use time to generate UUID
+
+  # If user only wants metadata, return
+  if(retrieve == "NONE") {
+    return(res)
+  }
+
   # Get HTML
   rep <- get(URL)
 
@@ -343,8 +352,6 @@ TenK_process <- function( URL,
     # If FTP, then res exists --> append
     res$busdescription <- BD
     # Return
-    return(res)
-  } else { # Else NONE
     return(res)
   }
 }
