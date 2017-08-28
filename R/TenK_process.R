@@ -293,7 +293,7 @@ TenK_process <- function( URL,
     # If empty
     if( nrow(stop_condition) == 0 ) {
       # Else, locate next item (only if part i item 1 is found)
-      stop_condition <- tbl_df(as.data.frame(str_locate_all(h, "item 2.\\s?(description of\\s)?propert")[[1]]))
+      stop_condition <- tbl_df(as.data.frame(str_locate_all(h, "item 2\\s?[\\.|-]?\\s?(description of\\s)?propert")[[1]]))
     }
     # Extract
     BD <- str_sub(text, 1, (stop_condition$start[1] - 1))
@@ -328,7 +328,7 @@ TenK_process <- function( URL,
   }
 
   # Add UUID
-  res$uuid <- uuid::UUIDgenerate(TRUE) # TRUE: use time to generate UUID
+  res$uuid <- uuid::UUIDgenerate()
 
   # If user only wants metadata, return
   if(retrieve == "NONE") {

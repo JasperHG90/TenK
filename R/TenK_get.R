@@ -266,7 +266,7 @@ TenK_get <- function( URL, type = c("ftp", "html"), meta_list ) {
 	        if(str_detect(tolower(sub_x), "state of incorp") | str_detect(tolower(sub_x), "fiscal year end") | str_detect(tolower(sub_x),"irs no")) {
 	          sub_x <- str_replace(sub_x, "Type: 10-K", "")
 	        }
-          if(str_detect(tolower(sub_x), "film no")) {
+          if(str_detect(tolower(sub_x), "film no") | str_detect(tolower(sub_x), "file no")) {
             sub_x <- str_replace(sub_x, "Assistant Director [0-9]*", "")
             sub_x <- str_split(sub_x, "SIC: ")[[1]]
             if(length(sub_x) > 1) {
