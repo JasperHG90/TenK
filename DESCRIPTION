@@ -11,10 +11,7 @@ Imports:
     dplyr,
     stringr,
     rvest
-URL:
-    http://www.jasperginn.nl/TenK/
-    https://github.com/JasperHG90/TenK
-    https://github.com/JasperHG90/TenK/wiki
+URL:https://github.com/JasperHG90/TenK
 BugReports: https://github.com/JasperHG90/TenK/issues
 License: GPL3
 LazyData: TRUE

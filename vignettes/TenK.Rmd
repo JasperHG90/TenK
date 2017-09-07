@@ -54,7 +54,7 @@ The main function in this package, `TenK_process`, takes as its input a URL belo
 
 The figure below schematically outlines this process
 
-![Scraping](https://drive.google.com/uc?id=0BwFSCwDYNUS9NjYyZExPcDFnVlk)
+<!-- ![Scraping](https://drive.google.com/uc?id=0BwFSCwDYNUS9NjYyZExPcDFnVlk) -->
 
 # 2. Installing and loading the package
 
@@ -71,7 +71,7 @@ install_github("JasperHG90/TenK")
 
 You can then load the package as follows:
 
-```{r}
+```{r, eval=FALSE}
 library(TenK)
 ```
 
@@ -79,7 +79,7 @@ library(TenK)
 
 For the years 2013-2016, `TenK` provides datasets containing FTP urls for each 10-K filing. These can be queried as follows:
 
-```{r}
+```{r, eval=FALSE}
 data("filings10K2013") # Exchange 2013 for 2014, 2015 or 2016 for later years.
 dim(filings10K2013)
 ```
@@ -99,7 +99,7 @@ To retrieve a report, use the `TenK_process` function. It has the following para
 
 Retrieving all metadata plus the report is straightforward. This is demonstrated in the code block below. 
 
-```{r, eval=T}
+```{r, eval=FALSE}
 # Retrieve business description
 res <- TenK_process(filings10K2013$ftp_url[1], retrieve = "BD")
 # Print
@@ -108,7 +108,7 @@ print(names(res))
 
 You can retrieve a similar result when using a direct HTML url:
 
-```{r}
+```{r, eval=FALSE}
 # Retrieve business description
 res2 <- TenK_process(res$htm10kurl, retrieve = "BD")
 # Print
@@ -164,7 +164,7 @@ Optional fields can be manually selected/deselected.
 
 If you want to select optional metadata fields, you can do so by passing a list to the 'meta_list' parameter. This is demonstrated in the code block below.
 
-```{r}
+```{r, eval=FALSE}
 # Retrieve business description - select metadata fields
 res_select <- TenK_process(filings10K2013$ftp_url[1], 
                            meta_list = list("filing_date" = 1,
@@ -178,7 +178,7 @@ print(names(res_select))
 
 If you don't desire any metadata, you can turn this off by setting the 'metadata' parameter to FALSE:
 
-```{r}
+```{r, eval=FALSE}
 # Retrieve business description without metadata
 res_no_metadata <- TenK_process(filings10K2013$ftp_url[1], metadata = FALSE)
 # Print
@@ -193,7 +193,7 @@ There are several ways in which you can store the results of the `TenK_process` 
 
 You can save R lists (this is what `TenK_process` returns) as JSON files:
 
-```{r, eval=F}
+```{r, eval=FALSE}
 library(rjson) # Install if you don't have it
 # Convenience function
 savetojson <- function(data, path) {
@@ -207,7 +207,7 @@ savetojson(res, "/users/jasper/desktop")
 
 You can load the data as follows:
 
-```{r}
+```{r, eval=FALSE}
 library(rjson)
 res <- fromJSON(file = "/users/jasper/desktop/data.json")
 ```
@@ -222,7 +222,7 @@ After installing postgresql, you can use the `RPostgreSQL` package to store and 
 
 The first step is to create a table with field names and data types. The example below does this for all metadata. In your own case, you may want to delete some of these fields if you don't require them.
 
-```{r, include=FALSE, results="hide"}
+```{r, include=FALSE, results="hide", eval=FALSE}
 library(RPostgreSQL)
 # Open connection
 db <- dbConnect(PostgreSQL(), user = "Jasper", host = "127.0.0.1")
@@ -232,7 +232,7 @@ dbSendQuery(db, "DROP TABLE IF EXISTS tenk_reports ;")
 dbDisconnect(db)
 ```
 
-```{r}
+```{r, eval=FALSE}
 # Install if you don't have this package
 library(RPostgreSQL)
 # Open connection
@@ -260,7 +260,7 @@ q <- dbSendQuery(db, "CREATE TABLE tenk_reports (
 
 Once you've created your postgres table, you can append data to it by using the `dbWriteTable` function:
 
-```{r}
+```{r, eval=FALSE}
 # Add data - easiest way is to convert list to df
 res_df <- as.data.frame(res, stringsAsFactors = F)
 # This gives a df with 14 columns and 1 row
@@ -275,7 +275,7 @@ dbWriteTable(db, "tenk_reports", res_df, append=T,
 
 The `htm10kurl` effectively functions as a unique ID for each report. As such, it is convenient to use it as a way to check if a given record already exists in a table:
 
-```{r}
+```{r, eval=FALSE}
 dbCheck <- function(conn, URL) {
   # Query
   q <- dbSendQuery(db, paste0("SELECT exists (SELECT 1 FROM tenk_reports WHERE htm10kurl = ",
@@ -294,7 +294,7 @@ dbCheck <- function(conn, URL) {
 
 Before you store the record, you can run the check
 
-```{r}
+```{r, eval=FALSE}
 # Run check
 check <- dbCheck(db, res$htm10kurl)
 # Print
@@ -307,7 +307,7 @@ If the function returns TRUE, the record already exists. If it returns FALSE, yo
 
 To query data from the database, you can use `dbReadTable`:
 
-```{r}
+```{r, eval=FALSE}
 res_query <- dbReadTable(db, "tenk_reports")
 # Disconnect
 dbDisconnect(db)
@@ -315,7 +315,7 @@ dbDisconnect(db)
 
 As you can see, the data types (which we set when creating the table) are also imported into R:
 
-```{r}
+```{r, eval=FALSE}
 str(res_query, nchar.max = 10)
 ```
 
@@ -329,7 +329,7 @@ After installing MongoDB on your system, you can send and load data using the `r
 
 You don't need to explicitly state that you want to create a mongodb database; rather, you would just start using it *ad hoc*. Note that with mongodb, a *namespace* is a combination of the database and the collection (similar to SQL table).
 
-```{r}
+```{r, eval=FALSE}
 library(rmongodb) # install if you don't have it
 # Details
 database <- "tenk_reports"
@@ -344,14 +344,14 @@ m <- mongo.create()
 
 To store a record in the database, you can use `mongo.insert`:
 
-```{r}
+```{r, eval=FALSE}
 # Insert data
 mongo.insert(m, ns, res)
 ```
 
 Once again, it is a good idea to check if the record already exists in the database. You can do this as follows:
 
-```{r}
+```{r, eval=FALSE}
 recExists <- function(mongo_connection, ns, URL) {
   # Find
   q <- mongo.find.all(mongo_connection, ns, query = list("htm10kurl" = URL))
@@ -362,7 +362,7 @@ recExists <- function(mongo_connection, ns, URL) {
 
 You can then call it like this:
 
-```{r}
+```{r, eval=FALSE}
 ex <- recExists(m, ns, res$htm10kurl)
 print(ex)
 ```
@@ -371,7 +371,7 @@ print(ex)
 
 To retrieve a record, you can use `mongo.find.one()` or `mongo.find.all()`
 
-```{r}
+```{r, eval=FALSE}
 # Find one record
 res_mongo <- mongo.find.one(m, ns, query = list("htm10kurl" = res$htm10kurl))
 # Note that the result is a mongo BSON 
@@ -384,7 +384,7 @@ res_mongo <- mongo.find.all(m, ns)
 mongo.destroy(m)
 ```
 
-```{r, include=FALSE, results="hide"}
+```{r, include=FALSE, results="hide", eval=FALSE}
 # Drop mongo collection
 mongo <- mongo.create()
 mongo.drop.database(mongo, "tenk_reports")
@@ -393,7 +393,7 @@ mongo.destroy(mongo)
 
 Note that, unlike with postgresql, the data does not automatically have the right data type. This is a drawback of schema-less databases like mongo. 
 
-```{r}
+```{r, eval=FALSE}
 str(res_mongo, nchar.max = 10)
 ```
 
